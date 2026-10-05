@@ -122,8 +122,52 @@ class BotConfig(BaseModel):
     # Разделы меню Telegram-бота
     sections: list[str] = []
 
+
 class TelegramTokenRequest(BaseModel):
-    token: str 
+    token: str
+
+
+# --------------------------------------------------
+# Общая проверка Telegram token
+# --------------------------------------------------
+
+def check_telegram_token(token: str):
+    # Проверяем базовый формат токена
+    if ":" not in token or not token.isascii():
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid Telegram bot token"
+        )
+
+    # Формируем адрес Telegram API
+    url = f"https://api.telegram.org/bot{token}/getMe"
+
+    try:
+        # Отправляем запрос в Telegram
+        with urllib.request.urlopen(url, timeout=5) as response:
+            result = json.loads(response.read().decode("utf-8"))
+
+        # Если Telegram подтвердил токен
+        if result.get("ok"):
+            return result["result"]
+
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid Telegram bot token"
+        )
+
+    except urllib.error.HTTPError:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid Telegram bot token"
+        )
+
+    except urllib.error.URLError:
+        raise HTTPException(
+            status_code=503,
+            detail="Could not connect to Telegram"
+        )
+
 
 # --------------------------------------------------
 # Создание конфигурации
@@ -131,6 +175,12 @@ class TelegramTokenRequest(BaseModel):
 
 @app.post("/api/bots")
 def create_bot(bot: BotConfig):
+    # Сначала проверяем Telegram token
+    bot_info = check_telegram_token(bot.telegram_token)
+
+    # Получаем настоящий username из Telegram
+    telegram_username = bot_info.get("username", "")
+
     connection = get_connection()
     cursor = connection.cursor()
 
@@ -170,7 +220,7 @@ def create_bot(bot: BotConfig):
             json.dumps(bot.features, ensure_ascii=False),
 
             bot.working_hours,
-            bot.telegram_username
+            telegram_username
         )
     )
 
@@ -183,7 +233,8 @@ def create_bot(bot: BotConfig):
 
     return {
         "id": bot_id,
-        "message": "Bot configuration created"
+        "message": "Bot created successfully",
+        "telegram_username": telegram_username
     }
 
 
@@ -302,44 +353,19 @@ def update_bot(bot_id: int, bot: BotConfig):
         "message": "Bot configuration updated"
     }
 
+
+# --------------------------------------------------
+# Проверка Telegram token
+# --------------------------------------------------
+
 @app.post("/api/validate-token")
 def validate_token(data: TelegramTokenRequest):
-    # Проверяем базовый формат токена до обращения к Telegram
-    if ":" not in data.token or not data.token.isascii():
-        raise HTTPException(
-            status_code=400,
-            detail="Invalid Telegram bot token"
-        )
+    # Используем общую функцию проверки
+    bot_info = check_telegram_token(data.token)
 
-    url = f"https://api.telegram.org/bot{data.token}/getMe"
-
-    try:
-        with urllib.request.urlopen(url, timeout=5) as response:
-            result = json.loads(response.read().decode("utf-8"))
-
-        if result.get("ok"):
-            bot_info = result["result"]
-
-            return {
-                "valid": True,
-                "message": "Bot connected successfully",
-                "username": bot_info.get("username"),
-                "first_name": bot_info.get("first_name")
-            }
-
-        raise HTTPException(
-            status_code=400,
-            detail="Invalid Telegram bot token"
-        )
-
-    except urllib.error.HTTPError:
-        raise HTTPException(
-            status_code=400,
-            detail="Invalid Telegram bot token"
-        )
-
-    except urllib.error.URLError:
-        raise HTTPException(
-            status_code=503,
-            detail="Could not connect to Telegram"
-        )
+    return {
+        "valid": True,
+        "message": "Bot connected successfully",
+        "username": bot_info.get("username"),
+        "first_name": bot_info.get("first_name")
+    }
