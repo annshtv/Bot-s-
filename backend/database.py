@@ -1,32 +1,28 @@
 import sqlite3
-# Подключаем встроенную библиотеку Python для работы с SQLite
+# Встроенная библиотека Python для работы с SQLite
 
 
 DATABASE_NAME = "botly.db"
-# Имя файла базы данных
+# Файл нашей базы данных
 
 
 def get_connection():
-    # Создаём соединение с базой данных
-
+    # Создаём подключение к базе данных
     connection = sqlite3.connect(DATABASE_NAME)
 
-    # Позволяет получать данные по названиям колонок
+    # Позволяет обращаться к колонкам по имени:
+    # bot["business_name"] вместо bot[1]
     connection.row_factory = sqlite3.Row
 
     return connection
-    # Возвращаем готовое соединение
 
 
 def create_tables():
-    # Создаём таблицу bots, если её ещё нет
-
+    # Подключаемся к базе
     connection = get_connection()
-
     cursor = connection.cursor()
-    # Cursor выполняет SQL-команды
 
-
+    # Создаём основную таблицу, если её ещё нет
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS bots (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,15 +34,31 @@ def create_tables():
             address TEXT,
             telegram_token TEXT,
             sections TEXT,
+            features TEXT,
+            working_hours TEXT,
+            telegram_username TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
 
+    # Получаем список колонок существующей таблицы
+    cursor.execute("PRAGMA table_info(bots)")
+    columns = [column["name"] for column in cursor.fetchall()]
 
-    connection.commit()
+    # Эти проверки нужны потому, что botly.db у нас уже существует.
+    # Если новой колонки ещё нет, добавляем её.
+
+    if "features" not in columns:
+        cursor.execute("ALTER TABLE bots ADD COLUMN features TEXT")
+
+    if "working_hours" not in columns:
+        cursor.execute("ALTER TABLE bots ADD COLUMN working_hours TEXT")
+
+    if "telegram_username" not in columns:
+        cursor.execute("ALTER TABLE bots ADD COLUMN telegram_username TEXT")
+
     # Сохраняем изменения
+    connection.commit()
 
-
-    connection.close()
     # Закрываем соединение
-    
+    connection.close()
