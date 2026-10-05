@@ -1,3 +1,5 @@
+import urllib.request
+import urllib.error
 from fastapi import FastAPI, HTTPException
 # FastAPI создаёт backend
 # HTTPException позволяет возвращать ошибки
@@ -120,6 +122,8 @@ class BotConfig(BaseModel):
     # Разделы меню Telegram-бота
     sections: list[str] = []
 
+class TelegramTokenRequest(BaseModel):
+    token: str 
 
 # --------------------------------------------------
 # Создание конфигурации
@@ -297,3 +301,45 @@ def update_bot(bot_id: int, bot: BotConfig):
         "id": bot_id,
         "message": "Bot configuration updated"
     }
+
+@app.post("/api/validate-token")
+def validate_token(data: TelegramTokenRequest):
+    # Проверяем базовый формат токена до обращения к Telegram
+    if ":" not in data.token or not data.token.isascii():
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid Telegram bot token"
+        )
+
+    url = f"https://api.telegram.org/bot{data.token}/getMe"
+
+    try:
+        with urllib.request.urlopen(url, timeout=5) as response:
+            result = json.loads(response.read().decode("utf-8"))
+
+        if result.get("ok"):
+            bot_info = result["result"]
+
+            return {
+                "valid": True,
+                "message": "Bot connected successfully",
+                "username": bot_info.get("username"),
+                "first_name": bot_info.get("first_name")
+            }
+
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid Telegram bot token"
+        )
+
+    except urllib.error.HTTPError:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid Telegram bot token"
+        )
+
+    except urllib.error.URLError:
+        raise HTTPException(
+            status_code=503,
+            detail="Could not connect to Telegram"
+        )
