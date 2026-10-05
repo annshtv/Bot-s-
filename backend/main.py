@@ -1,37 +1,35 @@
 import urllib.request
 import urllib.error
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-# FastAPI создаёт backend
-# HTTPException позволяет возвращать ошибки
 
 from pydantic import BaseModel
-# BaseModel описывает структуру входящих данных
 
 import json
-# Нужен для преобразования списков и объектов в JSON
 
 from database import get_connection, create_tables
-# Функции для работы с SQLite
 
 
 app = FastAPI()
-# Создаём приложение
+
+
+# --------------------------------------------------
+# CORS — связь frontend с backend
+# --------------------------------------------------
 
 app.add_middleware(
     CORSMiddleware,
-    # Разрешаем frontend на Vite обращаться к backend
-    allow_origins=["http://localhost:5173"],
 
-    # Разрешаем передачу credentials при необходимости
+    # Разрешаем локальный React/Vite frontend.
+    # Подойдут localhost:5173, localhost:5174 и другие порты.
+    allow_origin_regex=r"http://(localhost|127\.0\.0\.1):\d+",
+
     allow_credentials=True,
-
-    # Разрешаем GET, POST, PUT и другие методы
     allow_methods=["*"],
-
-    # Разрешаем необходимые заголовки запросов
     allow_headers=["*"],
 )
+
 
 create_tables()
 # Создаём таблицу и добавляем недостающие колонки
@@ -221,7 +219,6 @@ def create_bot(bot: BotConfig):
             bot.description,
             bot.language,
 
-            # model_dump превращает ServiceItem в обычный словарь
             json.dumps(
                 [service.model_dump() for service in bot.services],
                 ensure_ascii=False
@@ -254,7 +251,7 @@ def create_bot(bot: BotConfig):
 
 
 # --------------------------------------------------
-# Получение конфигурации
+# Получение полной конфигурации
 # --------------------------------------------------
 
 @app.get("/api/bots/{bot_id}")
@@ -301,6 +298,51 @@ def get_bot(bot_id: int):
     }
 
 
+# --------------------------------------------------
+# Конфигурация специально для Telegram-бота
+# --------------------------------------------------
+
+@app.get("/api/bots/{bot_id}/telegram-config")
+def get_telegram_config(bot_id: int):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT * FROM bots WHERE id = ?",
+        (bot_id,)
+    )
+
+    bot = cursor.fetchone()
+
+    connection.close()
+
+    if bot is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Bot not found"
+        )
+
+    return {
+        "id": bot["id"],
+        "business_name": bot["business_name"],
+        "language": bot["language"],
+
+        "services": json.loads(
+            bot["services"] or "[]"
+        ),
+
+        "address": bot["address"],
+
+        "working_hours": bot["working_hours"] or "",
+
+        "features": json.loads(
+            bot["features"] or "[]"
+        ),
+
+        "sections": json.loads(
+            bot["sections"] or "[]"
+        )
+    }
 
 
 # --------------------------------------------------
