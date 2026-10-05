@@ -287,6 +287,58 @@ def get_bot(bot_id: int):
 
 
 # --------------------------------------------------
+# Конфигурация для Telegram-бота
+# --------------------------------------------------
+
+@app.get("/api/bots/{bot_id}/telegram-config")
+def get_telegram_config(bot_id: int):
+    # Подключаемся к базе данных
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    # Ищем бота по его id
+    cursor.execute(
+        "SELECT * FROM bots WHERE id = ?",
+        (bot_id,)
+    )
+
+    bot = cursor.fetchone()
+
+    # Закрываем соединение с базой
+    connection.close()
+
+    # Если такого бота нет
+    if bot is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Bot not found"
+        )
+
+    # Возвращаем только те данные,
+    # которые нужны Telegram-боту
+    return {
+        "id": bot["id"],
+        "business_name": bot["business_name"],
+        "language": bot["language"],
+
+        "services": json.loads(
+            bot["services"] or "[]"
+        ),
+
+        "address": bot["address"],
+
+        "working_hours": bot["working_hours"] or "",
+
+        "features": json.loads(
+            bot["features"] or "[]"
+        ),
+
+        "sections": json.loads(
+            bot["sections"] or "[]"
+        )
+    }
+
+# --------------------------------------------------
 # Изменение конфигурации
 # --------------------------------------------------
 
