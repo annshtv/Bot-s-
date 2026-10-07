@@ -4,13 +4,13 @@ import Logo from "../components/Logo.jsx";
 export default function Landing() {
   return (
     <div className="min-h-screen bg-canvas">
-      <header className="flex items-center justify-between border-b border-gray-200 bg-white px-10 py-4">
+      <header className="flex items-center justify-between gap-4 border-b border-gray-200 bg-white px-4 py-3 md:px-10 md:py-4">
         <Logo />
-        <nav className="flex items-center gap-8 text-sm font-medium text-gray-600">
-          <a href="#features" className="hover:text-navy-950">
+        <nav className="flex items-center gap-4 text-sm font-medium text-gray-600 md:gap-8">
+          <a href="#features" className="hidden hover:text-navy-950 md:inline">
             Возможности
           </a>
-          <a href="#pricing" className="hover:text-navy-950">
+           <a href="#pricing" className="hidden hover:text-navy-950 md:inline">
             Цены
           </a>
           <Link to="/overview" className="hover:text-navy-950">
@@ -18,39 +18,39 @@ export default function Landing() {
           </Link>
           <Link
             to="/create/describe"
-            className="rounded-lg bg-navy-950 px-4 py-2 text-white transition-colors hover:bg-navy-900"
+            className="hidden rounded-lg bg-navy-950 px-4 py-2 text-white transition-colors hover:bg-navy-900 sm:inline-block"
           >
             Начать бесплатно
           </Link>
         </nav>
       </header>
 
-      <section className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-16 px-10 py-24 md:grid-cols-2">
+      <section className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 py-12 md:grid-cols-2 md:gap-16 md:px-10 md:py-24">
         <div>
-          <h1 className="font-display text-5xl font-extrabold leading-tight text-navy-950">
+          <h1 className="font-display text-4xl font-extrabold leading-tight md:text-5xl text-navy-950">
             От идеи до Telegram-бота за 5 минут
           </h1>
           <p className="mt-6 max-w-md text-gray-500">
             Опишите бизнес обычным текстом — платформа сама соберёт структуру
             бота. Без программиста и лишних затрат.
           </p>
-          <div className="mt-8 flex gap-3">
+         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               to="/create/describe"
-              className="rounded-lg bg-navy-950 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-navy-900"
+              className="rounded-lg bg-navy-950 px-5 py-3 text-sm font-semibold text-white text-center transition-colors hover:bg-navy-900"
             >
               Создать бота
             </Link>
             <a
               href="#features"
-              className="rounded-lg border border-gray-300 px-5 py-3 text-sm font-semibold text-navy-950 hover:bg-white"
+              className="rounded-lg border border-gray-300 px-5 py-3 text-sm font-semibold  text-center text-navy-950 hover:bg-white"
             >
               Как это работает
             </a>
           </div>
         </div>
 
-        <div className="rounded-xl2 bg-white p-6 shadow-sm">
+        <div className="rounded-xl2 bg-white p-5 shadow-sm md:p-6">
           <p className="mb-3 text-xs font-medium text-gray-400">Пример</p>
           <div className="mb-3 ml-auto max-w-[85%] rounded-xl bg-[#1D6FA5] px-4 py-3 text-sm text-white">
   У меня салон красоты. Нужен бот для записи и напоминаний.
