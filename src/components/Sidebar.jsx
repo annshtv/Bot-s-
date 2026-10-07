@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import Logo from "./Logo.jsx";
 
@@ -12,12 +13,12 @@ export default function Sidebar() {
   const location = useLocation();
 
   return (
-    <aside className="w-60 shrink-0 border-r border-gray-200 bg-white px-4 py-6">
-      <div className="px-2">
+    <aside className="sticky top-0 z-20 border-b border-gray-200 bg-white px-4 py-3 md:h-screen md:w-60 md:shrink-0 md:border-b-0 md:border-r border-gray-200 bg-white px-4 md:py-6">
+      <div className="flex items-center justify-between md:px-2">
         <Logo />
       </div>
 
-      <nav className="mt-8 flex flex-col gap-1">
+      <nav className="mt-3 flex flex-col md:mt-8 md:flex gap-1">
         {links.map((link) => (
           <NavLink
             key={link.to}
@@ -26,7 +27,7 @@ export default function Sidebar() {
               const active =
                 isActive || (link.matchPrefix && location.pathname.startsWith(link.matchPrefix));
               return [
-                "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                "rounded-lg px-3 py-2.5 text-sm font-medium transition-colors md:py-2",
                 active
                   ? "bg-accent-500/10 text-accent-600"
                   : "text-gray-600 hover:bg-gray-50 hover:text-navy-950",
