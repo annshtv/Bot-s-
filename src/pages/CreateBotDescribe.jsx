@@ -35,8 +35,8 @@ export default function CreateBotDescribe() {
         Создать бота / <span className="text-gray-600">Описание бизнеса</span>
       </p>
 
-      <div className="max-w-2xl rounded-xl2 bg-white p-8 shadow-sm">
-        <h1 className="font-display text-2xl font-bold text-navy-950">
+      <div className="max-w-2xl rounded-xl2 bg-white p-5 shadow-sm md:p-8">
+        <h1 className="font-display text-xl font-bold md:text-2xl text-navy-950">
           Расскажите о бизнесе
         </h1>
         <p className="mt-1 text-sm text-gray-500">
@@ -72,7 +72,7 @@ export default function CreateBotDescribe() {
           <button
             onClick={handleSubmit}
             disabled={!description.trim()}
-            className="rounded-lg bg-navy-950 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-900 disabled:cursor-not-allowed disabled:opacity-40"
+            className="w-full rounded-lg bg-navy-950 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-navy-900 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto sm:py-2.5"
           >
             Сгенерировать бота
           </button>
