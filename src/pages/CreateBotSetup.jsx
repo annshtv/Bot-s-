@@ -30,18 +30,18 @@ export default function CreateBotSetup() {
       </p>
 
       <div className="grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-2">
-        <div className="rounded-xl2 bg-white p-8 shadow-sm">
+        <div className="rounded-xl2 bg-white p-5 shadow-sm md:p-8">
           <h2 className="font-display text-xl font-bold text-navy-950">
             Услуги и цены
           </h2>
 
           <div className="mt-4 divide-y divide-gray-100">
             {services.map((service, i) => (
-              <div key={i} className="flex items-center gap-3 py-3">
+              <div key={i} className="flex items-center gap-2 py-3 md:gap-3">
                 <input
                   value={service.name}
                   onChange={(e) => updateService(i, "name", e.target.value)}
-                  className="flex-1 bg-transparent text-sm text-navy-950 outline-none"
+                  className="min-w-0 flex-1 bg-transparent text-sm text-navy-950 outline-none"
                 />
                 <input
                   type="number"
@@ -49,7 +49,7 @@ export default function CreateBotSetup() {
                   onChange={(e) =>
                     updateService(i, "price", Number(e.target.value))
                   }
-                  className="w-24 bg-transparent text-right text-sm text-gray-500 outline-none"
+                  className="w-20 shrink-0 bg-transparent text-right md:w-24 text-sm text-gray-500 outline-none"
                 />
                 <span className="text-sm text-gray-400">₸</span>
               </div>
@@ -64,7 +64,7 @@ export default function CreateBotSetup() {
           </button>
         </div>
 
-        <div className="rounded-xl2 bg-white p-8 shadow-sm">
+        <div className="rounded-xl2 bg-white p-5 shadow-sm md:p-8">
           <h2 className="font-display text-xl font-bold text-navy-950">
             Контакты и график
           </h2>
@@ -91,7 +91,7 @@ export default function CreateBotSetup() {
         </div>
       </div>
 
-      <div className="mt-6 flex max-w-4xl justify-between">
+      <div className="mt-6 flex max-w-4xl flex-col-reverse gap-3 sm:flex-row sm:justify-between">
         <button
           onClick={() => navigate("/create/structure")}
           className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-semibold text-navy-950 hover:bg-white"
