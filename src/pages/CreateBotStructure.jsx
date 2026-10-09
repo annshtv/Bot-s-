@@ -18,8 +18,8 @@ export default function CreateBotStructure() {
         Создать бота / <span className="text-gray-600">Структура</span>
       </p>
 
-      <div className="max-w-2xl rounded-xl2 bg-white p-8 shadow-sm">
-        <h1 className="font-display text-2xl font-bold text-navy-950">
+      <div className="max-w-2xl rounded-xl2 bg-white p-8 shadow-sm md:p-8">
+        <h1 className="font-display text-xl font-bold md:text-2xl text-navy-950">
           Структура бота готова
         </h1>
         <p className="mt-1 text-sm text-gray-500">
@@ -30,7 +30,7 @@ export default function CreateBotStructure() {
           {Object.entries(features).map(([key, feature]) => (
             <label
               key={key}
-              className="flex items-center justify-between rounded-lg bg-gray-50 px-4 py-3"
+              className="flex items-center gap-3 justify-between rounded-lg bg-gray-50 px-4 py-3"
             >
               <span>
                 <span className="block text-sm font-medium text-navy-950">
@@ -44,13 +44,13 @@ export default function CreateBotStructure() {
                 type="checkbox"
                 checked={feature.enabled}
                 onChange={() => toggleFeature(key)}
-                className="h-5 w-9 cursor-pointer appearance-none rounded-full bg-gray-300 transition-colors checked:bg-accent-500 relative before:absolute before:left-0.5 before:top-0.5 before:h-4 before:w-4 before:rounded-full before:bg-white before:transition-transform checked:before:translate-x-4"
+                className="h-5 w-9 shrink-0 cursor-pointer appearance-none rounded-full bg-gray-300 transition-colors checked:bg-accent-500 relative before:absolute before:left-0.5 before:top-0.5 before:h-4 before:w-4 before:rounded-full before:bg-white before:transition-transform checked:before:translate-x-4"
               />
             </label>
           ))}
         </div>
 
-        <div className="mt-8 flex justify-between">
+        <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
           <button
             onClick={() => navigate("/create/describe")}
             className="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-semibold text-navy-950 hover:bg-gray-50"
