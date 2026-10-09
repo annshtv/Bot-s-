@@ -3,9 +3,9 @@ import Sidebar from "../components/Sidebar.jsx";
 
 export default function AppLayout() {
   return (
-    <div className="flex min-h-screen bg-canvas">
+    <div className="md:flex min-h-screen bg-canvas">
       <Sidebar />
-      <main className="flex-1 px-10 py-8">
+      <main className="min-w-0 flex-1 px-4 py-6 md:px-10 md:py-8">
         <Outlet />
       </main>
     </div>
