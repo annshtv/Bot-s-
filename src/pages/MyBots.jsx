@@ -22,14 +22,14 @@ export default function MyBots() {
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-[1fr_1fr_1fr_1.3fr]">
+      <div className="mt-6 grid grid-cols-3 gap-3 md:grid-cols-[1fr_1fr_1fr_1.3fr] md:gap-6">
         {}
         <StatCard label="Подписчиков" value={0} />
         <StatCard label="Сообщений" value={0} />
         <StatCard label="Записей" value={0} />
 
-        <div className="rounded-xl2 bg-white p-5 shadow-sm">
-          <p className="mb-3 text-xs font-medium text-gray-400">
+        <div className="col-span-3 rounded-xl2 bg-white p-5 shadow-sm md:col-span-1">
+ <p className="mb-3 text-xs font-medium text-gray-400">
             Предпросмотр в Telegram
           </p>
           <div className="mb-2 rounded-lg bg-gray-50 px-4 py-3 text-sm text-navy-950">
@@ -41,7 +41,7 @@ export default function MyBots() {
         </div>
       </div>
 
-      <div className="mt-6 flex gap-3">
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <button className="rounded-lg bg-navy-950 px-5 py-2.5 text-sm font-semibold text-white hover:bg-navy-900">
           Открыть в Telegram
         </button>
@@ -55,7 +55,7 @@ export default function MyBots() {
 
 function StatCard({ label, value }) {
   return (
-    <div className="rounded-xl2 bg-white p-5 shadow-sm">
+    <div className="rounded-xl2 bg-white p-4 shadow-sm md:p-5">
       <p className="text-xl font-bold text-navy-950">{value}</p>
       <p className="mt-1 text-xs text-gray-400">{label}</p>
     </div>

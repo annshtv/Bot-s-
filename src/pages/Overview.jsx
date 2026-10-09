@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Overview() {
   return (
-    <div className="rounded-xl2 bg-white p-10 shadow-sm">
+    <div className="rounded-xl2 bg-white p-6 shadow-sm md:p-10">
       <h1 className="font-display text-2xl font-bold text-navy-950">
         Обзор
       </h1>
