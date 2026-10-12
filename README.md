@@ -1,12 +1,45 @@
-# React + Vite
+# Bot(s) KZ — AI No-Code Платформа для Малого Бизнеса
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Bot(s) KZ** — это интеллектуальная веб-платформа, разработанная в рамках дисциплины «IT-Стартап 3» в AlmaU. Проект предназначен для автоматизации клиентских коммуникаций и оптимизации операционных процессов микро- и малого бизнеса в Казахстане без необходимости привлечения дорогостоящей IT-разработки.
 
-Currently, two official plugins are available:
+## 🔗 Ссылки проекта
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*   **Живой деплой (Production Build):** [tobijpeg.github.io/Bot-s/overview](https://github.io)
+*   **Репозиторий проекта:** [://github.com](https://github.com/annshtv/Bot-s-)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠 Технологический стек (Tech Stack)
+
+*   **Frontend-архитектура:** React.js (Vite) • Компонентно-ориентированный подход • Клиентский роутинг (`react-router-dom`).
+*   **Дизайн-система и верстка:** Tailwind CSS • Адаптивная кроссплатформенная верстка (`Mobile-First`) • Кастомные UI-компоненты.
+*   **Backend-архитектура:** Python + JavaScript (Node.js) • Разработка серверной логики и API-эндпоинтов для взаимодействия с фронтенд-частью.
+*   **Интеграции & API:** Telegram API • Регистрация и управление сущностями через BotFather • Реализована сквозная передача данных по вебхукам.
+
+---
+
+## 👥 Распределение ролей в команде (Team Roles & Agile-спринты)
+
+Проект разрабатывался по методологии **Agile/Scrum** короткими недельными спринтами с фиксацией истории коммитов на GitHub.
+
+1.  **Анна (Фронтенд-разработчик /Frontend Developer)**
+    *   Проектирование и разработка всей фронтенд-архитектуры приложения на React.js (Vite).
+    *   Интеграция дизайн-системы Tailwind CSS, обеспечение полной адаптивности 5 ключевых экранов платформы.
+    *   Настройка клиентского роутинга (`react-router-dom`), стейт-менеджмента приложения и технический деплой на Vercel.
+2.  **Камилла Морбекова (Бэкенд-разработчик / Backend Developer)**
+    *   Проектирование серверной логики приложения на стыке Python и JavaScript.
+    *   Создание API-эндпоинтов для обработки текстовых ИИ-запросов от фронтенда и передачи структуры бота.
+    *   Проектирование реляционной архитектуры базы данных (сущности `Users`, `Bot_Configs`, `Orders`).
+3.  **Мария Самсонова (Разработчик Telegram-бота / Telegram Bot Developer)**
+    *   Разработка архитектуры интеграции с Telegram API и автоматизация взаимодействия с BotFather.
+    *   Настройка сквозной передачи данных и вебхуков для мгновенной пересылки заявок из веб-формы в мессенджер.
+    *   Тестирование стабильности работы сгенерированных ботов на стороне Telegram.
+
+---
+
+## 🚀 Текущий статус MVP и Тракшн (Traction)
+
+К первому рубежному контролю (РК1) успешно запущен **High-Fidelity кликабельный MVP**:
+*   Интерфейс полностью автономен и доступен по живой ссылке без привязки к локальному компьютеру.
+*   Валидирован рыночный спрос (Willingness to Pay / Интерес): сформирован пул ранних предзаказов (Pre-orders) от действующих казахстанских брендов.
+*   Проект полностью готов к переходу на этап пилотирования и сбора обратной связи (РО 3, РО 4 силлабуса курса).
